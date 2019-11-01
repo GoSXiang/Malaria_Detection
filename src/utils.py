@@ -53,3 +53,50 @@ def get_data(path,limit):
 
 
   return samples_normal, samples_malaria, filenames_normal, filenames_malaria
+
+
+
+def fit_into_generators(train_df,valid_df,test_df,train_imgen,valid_imgen,batch_size=32):
+  ''' Takes in 3 dataframes and returns generators : train, test and validation '''
+
+  train_generator = train_imgen.flow_from_dataframe(
+  dataframe = train_df,
+  directory='Combined/',
+  x_col='train_combined',
+  y_col='labels',
+  has_ext=True,
+  batch_size=batch_size,
+  seed=2018,
+  shuffle=True,
+  class_mode='categorical',
+  #classes=['0','1'],
+  target_size=(96,96))
+
+  valid_generator = valid_imgen.flow_from_dataframe(
+  dataframe = valid_df,
+  directory='Combined/',
+  x_col='val_combined',
+  y_col='labels',
+  has_ext=True,
+  batch_size=batch_size,
+  seed=2018,
+  shuffle=False,
+  class_mode='categorical',
+  #classes=['0','1'],
+  target_size=(96,96))
+    
+  test_generator = valid_imgen.flow_from_dataframe(
+  dataframe = test_df,
+  directory='Combined/',
+  x_col='test_combined',
+  y_col='labels',
+  has_ext=True,
+  batch_size=batch_size,
+  seed=2018,
+  shuffle=False,
+  class_mode='categorical',
+  #classes=['0','1'],
+  target_size=(96,96)
+  )
+    
+  return train_generator, valid_generator, test_generator
