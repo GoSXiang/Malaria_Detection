@@ -56,7 +56,7 @@ def get_data(path,limit):
 
 
 
-def fit_into_generators(train_df,valid_df,test_df,train_imgen,valid_imgen,batch_size=32):
+def fit_into_generators(train_df,valid_df,test_df,train_imgen,valid_imgen,batch_size=32,shape=(96,96)):
   ''' Takes in 3 dataframes and returns generators : train, test and validation '''
 
   train_generator = train_imgen.flow_from_dataframe(
@@ -70,7 +70,7 @@ def fit_into_generators(train_df,valid_df,test_df,train_imgen,valid_imgen,batch_
   shuffle=True,
   class_mode='categorical',
   #classes=['0','1'],
-  target_size=(96,96))
+  target_size=shape)
 
   valid_generator = valid_imgen.flow_from_dataframe(
   dataframe = valid_df,
@@ -83,7 +83,7 @@ def fit_into_generators(train_df,valid_df,test_df,train_imgen,valid_imgen,batch_
   shuffle=False,
   class_mode='categorical',
   #classes=['0','1'],
-  target_size=(96,96))
+  target_size=shape)
     
   test_generator = valid_imgen.flow_from_dataframe(
   dataframe = test_df,
@@ -96,7 +96,7 @@ def fit_into_generators(train_df,valid_df,test_df,train_imgen,valid_imgen,batch_
   shuffle=False,
   class_mode='categorical',
   #classes=['0','1'],
-  target_size=(96,96)
+  target_size=shape
   )
     
   return train_generator, valid_generator, test_generator

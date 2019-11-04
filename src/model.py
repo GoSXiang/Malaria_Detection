@@ -30,3 +30,35 @@ def make_baseline_model():
     model.add(Activation('softmax'))
 
     return model
+
+
+def make_finetuned_resnet50():
+    #from keras.applications.resnet50 import preprocess_input
+    from keras.applications.resnet50 import ResNet50
+    from keras import layers, optimizers
+
+    rn50 = ResNet50(weights='imagenet', include_top=False, input_shape=(224, 224, 3))
+
+    model = Sequential()
+    model.add(rn50)
+    model.add(layers.Flatten())
+    model.add(layers.Dense(256, use_bias=False))
+    model.add(layers.BatchNormalization())
+    model.add(layers.Activation("relu"))
+    model.add(layers.Dropout(0.5))
+    model.add(layers.Dense(2, activation = "softmax"))
+
+    # Unfreeze starting from the 5th convolution layer, block16
+
+    rn50.Trainable=True
+
+    set_trainable=False
+    for layer in rn50.layers:
+        if layer.name == 'res5c_branch2c':
+            set_trainable = True
+        if set_trainable:
+            layer.trainable = True
+        else:
+            layer.trainable = False
+
+    return model 
