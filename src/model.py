@@ -62,3 +62,35 @@ def make_finetuned_resnet50():
             layer.trainable = False
 
     return model 
+
+
+def make_finetuned_inceptv3():
+    
+    from keras.applications.inception_v3 import InceptionV3
+    from keras import layers, optimizers
+
+    inceptv3 = InceptionV3(weights='imagenet', include_top=False, input_shape=(299, 299, 3))
+
+    model = Sequential()
+    model.add(inceptv3)
+    model.add(layers.Flatten())
+    model.add(layers.Dense(256, use_bias=False))
+    model.add(layers.BatchNormalization())
+    model.add(layers.Activation("relu"))
+    model.add(layers.Dropout(0.5))
+    model.add(layers.Dense(2, activation = "softmax"))
+
+    # Unfreeze starting from the last convolution layer
+
+    inceptv3.Trainable=True
+
+    set_trainable=False
+    for layer in inceptv3.layers:
+        if layer.name == 'conv2d_94':
+            set_trainable = True
+        if set_trainable:
+            layer.trainable = True
+        else:
+            layer.trainable = False
+
+    return model 
