@@ -94,3 +94,36 @@ def make_finetuned_inceptv3():
             layer.trainable = False
 
     return model 
+
+
+
+def make_finetuned_xcept():
+
+    from keras.applications.xception import Xception
+    from keras import layers, optimizers
+
+    xcept = Xception(weights='imagenet', include_top=False, input_shape=(299, 299, 3))
+
+    model = Sequential()
+    model.add(xcept)
+    model.add(layers.Flatten())
+    model.add(layers.Dense(256, use_bias=False))
+    model.add(layers.BatchNormalization())
+    model.add(layers.Activation("relu"))
+    model.add(layers.Dropout(0.5))
+    model.add(layers.Dense(2, activation = "softmax"))
+
+    # Unfreeze starting from the last convolution layer
+
+    xcept.Trainable=True
+    set_trainable=False
+    
+    for layer in xcept.layers:
+        if layer.name == 'block14_sepconv1':
+            set_trainable = True
+        if set_trainable:
+            layer.trainable = True
+        else:
+            layer.trainable = False
+    
+    return model
