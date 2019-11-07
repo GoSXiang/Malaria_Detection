@@ -30,8 +30,8 @@ The table below shows the models used for analysis. Firstly, a baseline model is
 
 After training/ finetuning the models, I proceeded to analyse what each model is learning. I used the `innvestigate` module. Refer [here](https://github.com/albermax/innvestigate) for more information on how `innvestigate` is used. 3 explanation methods were used: `gradient`, `smooth gradient` and `LRP Preset A Flat`. Samples of some output images are provided below.
 
-![image.png](tp.png)
-![image.png](tn.png)
+![image.png](images/tp.png)
+![image.png](images/tn.png)
 
 The image on the leftmost side depicts the original image. The images towards the right shows the parts in the original image that the model is 'seeing' when it predicts that particular class. This is illustrated by the bright spots in the gradient and smooth gradient heatmap and the red/blue spots in the LRP Preset A Flat heatmap. For the LRP Preset A Flat heatmap, red spots indicate the pixels from the original image that strongly favour the prediction that has the highest pre-softmax confidence. On the other hand, blue spots represent the pixels from the original image that are against that particular prediction.
 
