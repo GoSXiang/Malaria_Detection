@@ -10,6 +10,7 @@ In this modern society, explanability of well built AI models is an issue, owing
 |notebooks       | Contains the google colab notebooks on training and analysis     |
 |src    | Contains the python scripts required for the training and analysis          |
 |weights     | Some sample weights stored in h5 format                      |
+|images | Contains the .png images of some sample cell images
 
 ##  Evaluation Metrics
 
@@ -37,7 +38,7 @@ The image on the leftmost side depicts the original image. The images towards th
 
 ## Findings
 
-It seems that the 4 different models use different types of information from an image in the prediction of 'Parasitized' or 'Uninfected'. 
+It seems that the 4 different models use different types of information from an image in the prediction of 'Parasitized' or 'Uninfected'. Due to memory issues, only the LRP Preset A Flat heatmap is shown for the finetuned XceptionV1 model.
 
 | Model        | Emphasis     | Parasitized   | Unparasitized                                                                                               |
 | :---          | :---            | :---        | :---                                                                                            |
@@ -50,7 +51,7 @@ It seems that the 4 different models use different types of information from an 
 
 All the models are looking at the right regions in the prediction of parasitized class, be it the entire / part of the infected area or the nearby enclosure. Also, the models emphasizes on the whole or large parts of the perimeter or the interior region in the prediction of unparasitized class, which could suggest that the models are 'checking' the cell for the absence of purple patches in the process of prediction. This seems consistent with what humans do, which is to scan through the images to decide whether the cells are parasitized or not.
 
-The point here is that good models with accurate prediction can perceive images differently. However, caution should be exercised when deploying such models since there might be times where the model might be looking at the wrong parts to coincidentally predict the correct class. With such explanation tools, it is hoped that we can one day demystify the doubts or misconceptions about the AI models. 
+The point here is that good models with accurate prediction can perceive images differently. However, caution should be exercised when deploying such models since there might be times where the model might be looking at the wrong parts to coincidentally predict the correct class. With such explanation tools together with domain expertise, it is hoped that we can one day demystify the doubts or misconceptions about the AI models. 
 
 
 
