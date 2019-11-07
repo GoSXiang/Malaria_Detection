@@ -35,5 +35,22 @@ After training/ finetuning the models, I proceeded to analyse what each model is
 
 The image on the leftmost side depicts the original image. The images towards the right shows the parts in the original image that the model is 'seeing' when it predicts that particular class. This is illustrated by the bright spots in the gradient and smooth gradient heatmap and the red/blue spots in the LRP Preset A Flat heatmap. For the LRP Preset A Flat heatmap, red spots indicate the pixels from the original image that strongly favour the prediction that has the highest pre-softmax confidence. On the other hand, blue spots represent the pixels from the original image that are against that particular prediction.
 
+## Findings
+
+It seems that the 4 different models use different types of information from an image in the prediction of 'Parasitized' or 'Uninfected'. 
+
+| Model        | Emphasis     | Parasitized   | Unparasitized                                                                                               |
+| :---          | :---            | :---        | :---                                                                                            |
+|Baseline        | Model focuses entirely on the purple blobs in the prediction of parasitized and at the boundaries otherwise  | ![image.png](images/tp.png)     |        ![image.png](images/tn.png)                   |
+|Finetuned ResNet50       | Model has a smaller area of focus (dots) within the parasitized regions in the preprocessed image for the parasitized class. Similar to baseline model, it also emphasizes on the boundary in the prediction of uninfected class | ![image.png](images/resTP.png) | ![image.png](images/resTN.png)
+|Finetuned InceptionV3    | Model focuses on the boundary near the parasitized regions to predict the parasitized class. Similar to baseline, a large part of the boundary of the cell is emphasized to predict the unparasitized class      | ![image.png](images/inceptTP.png)   | ![image.png](images/inceptTN.png)
+|Finetuned XceptionV1     | Similar to the ResNet50 model, XceptionV1 focuses on a small portion of pixels within the parasitized region to predict the parasitized class. Contrary to the other 3 models, the model 'checks' the interior region instead to predict the unparasitized class. | ![image.png](images/xceptTP.png)  | ![image.png](images/xceptTN.png)    
+
+## Conclusion
+
+All the models are looking at the right regions in the prediction of parasitized class, be it the entire / part of the infected area or the nearby enclosure. Also, the models emphasizes on the whole or large parts of the perimeter or the interior region in the prediction of unparasitized class, which could suggest that the models are 'checking' the cell for the absence of purple patches in the process of prediction. This seems consistent with what humans do, which is to scan through the images to decide whether the cells are parasitized or not.
+
+The point here is that good models with accurate prediction can perceive images differently. However, caution should be exercised when deploying such models since there might be times where the model might be looking at the wrong parts to coincidentally predict the correct class. With such explanation tools, it is hoped that we can one day demystify the doubts or misconceptions about the AI models. 
+
 
 
